@@ -51,6 +51,32 @@ button.secondary{background:#303544}
 .tone span{font-size:13px;color:#c3c8d4}
 .note{border-left:3px solid #d8aa54;padding:10px;background:#282316;color:#e9d7ac;font-size:13px;margin-top:14px}
 footer{text-align:center;color:#777f91;font-size:12px;margin:30px}
+.tone {
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  gap:8px;
+}
+
+.tone svg {
+  width:100%;
+  height:65px;
+  background:#0c1019;
+  border-radius:8px;
+}
+
+.tone path {
+  fill:none;
+  stroke:#70a8ff;
+  stroke-width:3;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+}
+
+.tone .axis {
+  stroke:#343b4b;
+  stroke-width:1;
+}
 </style>
 </head>
 <body>
@@ -130,15 +156,49 @@ alphabet.forEach(([letter,sound])=>{
  document.getElementById("alphabet").appendChild(el);
 });
 
-tones.forEach(([mark,name,contour])=>{
- const el=document.createElement("div");
- el.className="tone";
- const b=document.createElement("b");
- b.textContent=mark;
- const s=document.createElement("span");
- s.textContent=name+" "+contour;
- el.append(b,s);
- document.getElementById("tones").appendChild(el);
+
+const toneCurves = [
+  "M5 30 L95 30",
+  "M5 48 L95 8",
+  "M5 8 L95 48",
+  "M5 8 L50 52 L95 8",
+  "M5 52 L50 8 L95 52",
+  "M5 30 L35 30",
+  "M5 52 L30 8 L55 52 L95 8",
+  "M5 48 Q50 48 95 8",
+  "M5 52 L65 52 L95 5"
+];
+
+tones.forEach(([mark,name,contour],i)=>{
+  const el=document.createElement("div");
+  el.className="tone";
+
+  const b=document.createElement("b");
+  b.textContent=mark;
+
+  const svg=document.createElementNS(
+    "http://www.w3.org/2000/svg","svg"
+  );
+  svg.setAttribute("viewBox","0 0 100 60");
+
+  const axis=document.createElementNS(
+    "http://www.w3.org/2000/svg","path"
+  );
+  axis.setAttribute("d","M5 30 H95");
+  axis.setAttribute("class","axis");
+
+  const path=document.createElementNS(
+    "http://www.w3.org/2000/svg","path"
+  );
+  path.setAttribute("d",toneCurves[i]);
+
+  svg.append(axis,path);
+
+  const s=document.createElement("span");
+  s.textContent=name;
+
+  el.append(b,svg,s);
+  document.getElementById("tones").appendChild(el);
 });
 
 function analyse(){
