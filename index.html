@@ -1,120 +1,158 @@
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#101116">
+<meta name="theme-color" content="#0c0d12">
 <title>LANDAI VOICE</title>
 <style>
-:root{color-scheme:dark;--bg:#0c0d12;--panel:#151720;--panel2:#1c1f2a;--line:#2a2e3b;--text:#f3f4f8;--muted:#9ba2b3;--blue:#5593ff;--blue2:#2867d8;--green:#45c58a}
-*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 50% -20%,#1b2c4c 0%,transparent 48%),var(--bg);color:var(--text);font:15px/1.5 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
-.wrap{width:min(1050px,100% - 32px);margin:auto;padding:28px 0 60px}
-header{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:30px}
-.brand{display:flex;align-items:center;gap:12px}.logo{width:42px;height:42px;border-radius:13px;background:linear-gradient(145deg,#6da5ff,#2456b7);display:grid;place-items:center;font-weight:850;font-size:19px;box-shadow:0 8px 30px #2867d844}
-h1{font-size:19px;letter-spacing:.13em;margin:0}.sub{color:var(--muted);font-size:11px;letter-spacing:.16em}
-.status{border:1px solid #315b49;background:#14271f;color:#8be0b6;padding:6px 10px;border-radius:30px;font-size:12px}
-.hero{margin:22px 0 25px}.eyebrow{color:#8db6ff;font-size:11px;letter-spacing:.2em;font-weight:700}.hero h2{font-size:clamp(27px,6vw,42px);line-height:1.1;margin:9px 0}.hero p{color:var(--muted);max-width:650px;margin:0}
-.panel{background:linear-gradient(160deg,#191c27,#12141b);border:1px solid var(--line);border-radius:20px;padding:20px;margin:16px 0;box-shadow:0 14px 40px #0002}
-.panel-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px}.panel h3{margin:0;font-size:16px}.hint{font-size:12px;color:var(--muted)}
-textarea{width:100%;min-height:125px;resize:vertical;border:1px solid #343a4b;background:#0e1017;color:var(--text);border-radius:13px;padding:15px;font:18px/1.65 inherit;outline:none}
-textarea:focus{border-color:var(--blue);box-shadow:0 0 0 3px #5593ff20}
-.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}.btn{border:0;border-radius:11px;padding:11px 16px;font-weight:700;cursor:pointer;background:var(--blue2);color:white}.btn.secondary{background:#252a38;border:1px solid #383e50}.btn:active{transform:translateY(1px)}
-.output{min-height:54px;background:#0e1017;border:1px solid #303648;border-radius:12px;padding:14px;overflow-wrap:anywhere;font-size:16px}.output small{display:block;color:var(--muted);font-size:12px;margin-top:8px}
-.notice{border-left:3px solid #e2b45a;padding:10px 13px;background:#292316;color:#e9d7ac;border-radius:0 10px 10px 0;font-size:13px;margin-top:13px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:9px}.letter{background:#10131b;border:1px solid #292e3c;border-radius:12px;padding:11px}.glyph{font-size:25px;font-weight:750;color:#a9c8ff}.sound{font-size:13px;margin-top:2px}.letter small{color:var(--muted);font-size:11px}
-.tones{display:grid;grid-template-columns:repeat(auto-fit,minmax(95px,1fr));gap:9px}.tone{background:#10131b;border:1px solid #292e3c;border-radius:12px;text-align:center;padding:12px 7px}.tone b{font-size:25px;color:#a9c8ff}.tone span{display:block;color:var(--muted);font-size:11px;margin-top:3px}
-footer{color:#737b8e;font-size:12px;text-align:center;margin-top:28px}
-@media(max-width:560px){.wrap{width:min(100% - 22px,1050px);padding-top:18px}.panel{padding:15px;border-radius:16px}.status{font-size:10px}.hero h2{font-size:31px}}
+*{box-sizing:border-box}
+body{
+ margin:0;background:#0c0d12;color:#f3f4f8;
+ font-family:Arial,sans-serif;padding:24px;
+}
+main{max-width:900px;margin:auto}
+header{display:flex;justify-content:space-between;align-items:center}
+h1{letter-spacing:4px;font-size:22px}
+.status{color:#65d6a1;font-size:12px}
+.intro{margin:55px 0 25px}
+.intro h2{font-size:38px;margin:8px 0}
+.intro p,.muted{color:#9ba2b3}
+.panel{
+ background:#171a24;border:1px solid #303546;
+ border-radius:17px;padding:20px;margin:16px 0;
+}
+h3{margin-top:0}
+textarea{
+ width:100%;min-height:130px;background:#0d1018;
+ border:1px solid #343a4b;border-radius:12px;
+ padding:15px;color:white;font-size:17px;resize:vertical;
+}
+button{
+ background:#367ce5;color:white;border:0;
+ border-radius:10px;padding:12px 18px;
+ margin-top:12px;font-weight:bold;cursor:pointer;
+}
+button.secondary{background:#303544}
+.result{
+ background:#0d1018;padding:15px;border-radius:10px;
+ overflow-wrap:anywhere;min-height:55px;
+}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:9px}
+.item,.tone{
+ background:#10131b;border:1px solid #303546;
+ padding:12px;border-radius:11px;
+}
+.letter{font-size:25px;color:#9dc3ff;font-weight:bold}
+.sound{font-size:13px;margin-top:5px}
+.tone{display:flex;justify-content:space-between;gap:10px;align-items:center}
+.tone b{font-size:22px;color:#9dc3ff}
+.tone span{font-size:13px;color:#c3c8d4}
+.note{border-left:3px solid #d8aa54;padding:10px;background:#282316;color:#e9d7ac;font-size:13px;margin-top:14px}
+footer{text-align:center;color:#777f91;font-size:12px;margin:30px}
 </style>
 </head>
 <body>
-<div class="wrap">
+<main>
+
 <header>
-  <div class="brand"><div class="logo">L</div><div><h1>LANDAI VOICE</h1><div class="sub">LANDАI TEXT & PHONETICS</div></div></div>
-  <div class="status">● Prototype 0.1</div>
+ <h1>LANDAI VOICE</h1>
+ <div class="status">● PROTOTYPE 0.2</div>
 </header>
 
-<section class="hero">
-  <div class="eyebrow">ПЕРВЫЙ ФОНЕТИЧЕСКИЙ ПРОТОТИП</div>
-  <h2>Голос Ландая начинается здесь.</h2>
-  <p>Рабочая основа будущей системы озвучивания: ввод текста, справочник букв и отдельная таблица тонов. Произношение строится по правилам ландайского языка, а не по правилам русского или английского.</p>
+<section class="intro">
+ <div style="color:#80adff;letter-spacing:3px;font-size:11px">
+ LANDАI TEXT TO SPEECH
+ </div>
+ <h2>Голос Ландая.</h2>
+ <p>Собственная система произношения и будущего человеческого голоса ландайского языка.</p>
 </section>
 
 <section class="panel">
-  <div class="panel-head"><h3>Текст на ландайском</h3><span class="hint">TEXT INPUT</span></div>
-  <textarea id="source" placeholder="Введите текст на ландайском…">Vũ̆ẻn lỹen Landai.</textarea>
-  <div class="actions">
-    <button class="btn" id="convert">Разобрать произношение</button>
-    <button class="btn secondary" id="clear">Очистить</button>
-  </div>
-  <div style="height:17px"></div>
-  <div class="panel-head"><h3>Фонетическая разметка</h3><span class="hint">PHONETIC PREVIEW</span></div>
-  <div class="output" id="result">Здесь появится разбор текста.</div>
-  <div class="notice">Это пока не аудио. Для человеческого голоса понадобится записать образцы произношения и обучить/подключить голосовую модель. Мы не будем подменять ландайскую речь случайным системным голосом.</div>
+ <h3>Текст на ландайском</h3>
+ <textarea id="source" placeholder="Введите текст на ландайском...">Vũ̆ẻn lỹen Landai.</textarea>
+ <button onclick="analyse()">Разобрать произношение</button>
+ <button class="secondary" onclick="clearText()">Очистить</button>
+ <h3 style="margin-top:25px">Фонетическая разметка</h3>
+ <div class="result" id="result">Ожидание текста...</div>
+ <div class="note">
+ Это фонетический прототип, а не готовая озвучка.
+ Для настоящего человеческого голоса понадобится обучение модели
+ на записях речи на ландайском языке.
+ </div>
 </section>
 
 <section class="panel">
-  <div class="panel-head"><h3>Алфавит ландайского языка</h3><span class="hint">33 БУКВЫ</span></div>
-  <div class="grid" id="alphabet"></div>
+ <h3>Алфавит ландайского языка</h3>
+ <div class="grid" id="alphabet"></div>
 </section>
 
 <section class="panel">
-  <div class="panel-head"><h3>Система тонов</h3><span class="hint">9 ТОНАЛЬНЫХ ФОРМ</span></div>
-  <div class="tones" id="tones"></div>
-  <p class="hint" style="margin:13px 0 0">Отображены принятые тоновые знаки. Точные контуры высоты, длительность и особенности каждого тона будут внесены по фонетическому описанию автора языка.</p>
+ <h3>Тоновая система</h3>
+ <div class="grid" id="tones"></div>
 </section>
-<footer>LANDAI VOICE · GitHub Pages · HTML / CSS / JavaScript</footer>
-</div>
+
+<footer>LANDAI VOICE · 2026 · LANDАI LANGUAGE</footer>
+</main>
+
 <script>
-const alphabet = [
- ['A','а'],['Ɐ','ӕ / ә'],['Ƀ','б'],['V','в'],['C','гортанная к'],['D','дз'],
- ['Đ','взрывная нёбная д'],['E','э'],['Ҽ','э, губы округлены'],['F','ф'],
- ['G','г'],['Ğ','гортанная г'],['H','х'],['Ḩ','хь / й-подобный оттенок'],
- ['I','и'],['K','кх / х'],['L','л'],['M','м'],['N','н'],['O','о'],
- ['Ơ','о, губы округлены'],['P','п'],['Q','название буквы: кью'],
- ['R','р'],['S','ш'],['T','т'],['Ƹ','ц'],['U','у'],['Ư','ы, губы округлены'],
- ['X','с'],['Y','ы'],['Z','з'],['Ԏ','между ы / э / о']
+const alphabet=[
+["A","а"],["Ɐ","ӕ / ә"],["Ƀ","б"],["V","в"],
+["C","гортанная к"],["D","дз"],["Đ","взрывная д"],
+["E","э"],["Ҽ","округлённое э"],["F","ф"],
+["G","г"],["Ğ","гортанная г"],["H","х"],
+["Ḩ","хь"],["I","и"],["K","к"],["L","л"],
+["M","м"],["N","н"],["O","о"],["Ơ","округлённое о"],
+["P","п"],["Q","кью"],["R","р"],["S","ш"],
+["T","т"],["Ƹ","ц"],["U","у"],["Ư","округлённое ы"],
+["X","с"],["Y","ы"],["Z","з"],["Ԏ","особая гласная"]
 ];
-const toneMarks = ['A','Á','À','Ǎ','Â','Ạ','Ã','Ả','A̚'];
-const alphabetEl = document.getElementById('alphabet');
+
+const tones=[
+["A","Ровный","→"],
+["Á","Высокий","↑"],
+["À","Низкий","↓"],
+["Ǎ","Высокий – низкий – высокий","↘ ↗"],
+["Â","Низкий – высокий – низкий","↗ ↘"],
+["Ạ","Короткий","·"],
+["Ã","Низкий – высокий – низкий – высокий","↘ ↗ ↘ ↗"],
+["Ả","Вопросительная интонация","↗ ?"],
+["A̚","Низкий, затем резкий подъём","↗!"]
+];
+
 alphabet.forEach(([letter,sound])=>{
- const el=document.createElement('div');el.className='letter';
- const g=document.createElement('div');g.className='glyph';g.textContent=letter;
- const s=document.createElement('div');s.className='sound';s.textContent=sound;
- el.append(g,s);alphabetEl.append(el);
-});
-const tonesEl=document.getElementById('tones');
-toneMarks.forEach((mark,i)=>{
- const el=document.createElement('div');el.className='tone';
- const b=document.createElement('b');b.textContent=mark;
- const s=document.createElement('span');s.textContent='Тон '+(i+1);
- el.append(b,s);tonesEl.append(el);
+ const el=document.createElement("div");
+ el.className="item";
+ el.innerHTML='<div class="letter"></div><div class="sound"></div>';
+ el.querySelector(".letter").textContent=letter;
+ el.querySelector(".sound").textContent=sound;
+ document.getElementById("alphabet").appendChild(el);
 });
 
-// This preview deliberately preserves the original spelling. It marks known
-// letters and tone-bearing forms without guessing unconfirmed tone contours.
-function analyse(text){
- const chars=[...text.normalize('NFC')];
- const known=new Set(alphabet.map(x=>x[0].toLocaleLowerCase()));
- let letters=0, unknown=[];
- for(const ch of chars){
-   if(/[A-Za-zА-Яа-яЁё]/u.test(ch) || /[ⱯɃƀĐđҼĞğḨḩƠơƸƹƯưԎԏ]/u.test(ch)){
-     if(known.has(ch.toLocaleLowerCase())) letters++;
-     else if(!/\s/.test(ch)) unknown.push(ch);
-   }
- }
- const unique=[...new Set(unknown)];
- return `<strong>Исходный текст:</strong> ${escapeHtml(text||'—')}<small>Распознано символов ландайского алфавита: ${letters}. ${unique.length?'Символы, требующие проверки: '+escapeHtml(unique.join(' ')): 'Нераспознанных букв не обнаружено.'}<br>Тоновые знаки сохраняются; их точная акустическая реализация будет добавлена после уточнения тоновых контуров.</small>`;
+tones.forEach(([mark,name,contour])=>{
+ const el=document.createElement("div");
+ el.className="tone";
+ const b=document.createElement("b");
+ b.textContent=mark;
+ const s=document.createElement("span");
+ s.textContent=name+" "+contour;
+ el.append(b,s);
+ document.getElementById("tones").appendChild(el);
+});
+
+function analyse(){
+ const text=document.getElementById("source").value;
+ const count=[...text].length;
+ document.getElementById("result").textContent=
+ "Текст: "+text+" | Символов: "+count+
+ ". Тоновые знаки сохранены. Точная фонетическая транскрипция будет добавлена после настройки правил.";
 }
-function escapeHtml(s){return s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
-document.getElementById('convert').addEventListener('click',()=>{
- document.getElementById('result').innerHTML=analyse(document.getElementById('source').value);
-});
-document.getElementById('clear').addEventListener('click',()=>{
- document.getElementById('source').value='';
- document.getElementById('result').textContent='Здесь появится разбор текста.';
-});
-document.getElementById('convert').click();
+function clearText(){
+ document.getElementById("source").value="";
+ document.getElementById("result").textContent="Ожидание текста...";
+}
+analyse();
 </script>
 </body>
 </html>
