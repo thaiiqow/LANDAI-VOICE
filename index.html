@@ -1,218 +1,237 @@
-
 <!DOCTYPE html>
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0c0d12">
 <title>LANDAI VOICE</title>
 <style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
 *{box-sizing:border-box}
-body{
- margin:0;background:#0c0d12;color:#f3f4f8;
- font-family:Arial,sans-serif;padding:24px;
-}
+body{margin:0;background:#0c0d12;color:#f3f4f8;font-family:Arial,sans-serif;padding:22px}
 main{max-width:900px;margin:auto}
 header{display:flex;justify-content:space-between;align-items:center}
-h1{letter-spacing:4px;font-size:22px}
+h1{letter-spacing:4px;font-size:20px}
 .status{color:#65d6a1;font-size:12px}
-.intro{margin:55px 0 25px}
-.intro h2{font-size:38px;margin:8px 0}
-.intro p,.muted{color:#9ba2b3}
-.panel{
- background:#171a24;border:1px solid #303546;
- border-radius:17px;padding:20px;margin:16px 0;
-}
+.intro{margin:40px 0 20px}
+.intro h2{font-size:34px;margin:8px 0}
+.muted{color:#9ba2b3}
+.panel{background:#171a24;border:1px solid #303546;border-radius:17px;padding:20px;margin:16px 0}
 h3{margin-top:0}
-textarea{
- width:100%;min-height:130px;background:#0d1018;
- border:1px solid #343a4b;border-radius:12px;
- padding:15px;color:white;font-size:17px;resize:vertical;
-}
-button{
- background:#367ce5;color:white;border:0;
- border-radius:10px;padding:12px 18px;
- margin-top:12px;font-weight:bold;cursor:pointer;
-}
+textarea{width:100%;min-height:110px;background:#0d1018;border:1px solid #343a4b;border-radius:12px;padding:14px;color:#fff;font-size:17px;resize:vertical}
+button{background:#367ce5;color:#fff;border:0;border-radius:10px;padding:12px 16px;margin:12px 8px 0 0;font-weight:bold;cursor:pointer}
 button.secondary{background:#303544}
-.result{
- background:#0d1018;padding:15px;border-radius:10px;
- overflow-wrap:anywhere;min-height:55px;
-}
+.row{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-top:14px;font-size:13px;color:#c3c8d4}
+select,input[type=range]{background:#0d1018;color:#fff;border:1px solid #343a4b;border-radius:8px;padding:8px;max-width:100%}
+.result{background:#0d1018;padding:15px;border-radius:10px;overflow-wrap:anywhere;min-height:55px;line-height:2}
+.chunk{display:inline-block;margin:0 3px 4px 0;padding:2px 8px;border-radius:8px;background:#1b2233;color:#9dc3ff}
+.chunk.on{background:#367ce5;color:#fff}
+.chunk i{font-style:normal;color:#d8aa54;margin-left:3px}
+.sep{display:inline-block;width:14px}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:9px}
-.item,.tone{
- background:#10131b;border:1px solid #303546;
- padding:12px;border-radius:11px;
-}
+.item,.tone{background:#10131b;border:1px solid #303546;padding:12px;border-radius:11px}
 .letter{font-size:25px;color:#9dc3ff;font-weight:bold}
 .sound{font-size:13px;margin-top:5px}
-.tone{display:flex;justify-content:space-between;gap:10px;align-items:center}
+.tone{display:flex;flex-direction:column;gap:8px}
 .tone b{font-size:22px;color:#9dc3ff}
 .tone span{font-size:13px;color:#c3c8d4}
+.tone svg{width:100%;height:60px;background:#0c1019;border-radius:8px}
+.tone path{fill:none;stroke:#70a8ff;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.tone .axis{stroke:#343b4b;stroke-width:1}
 .note{border-left:3px solid #d8aa54;padding:10px;background:#282316;color:#e9d7ac;font-size:13px;margin-top:14px}
 footer{text-align:center;color:#777f91;font-size:12px;margin:30px}
-.tone {
-  display:flex;
-  flex-direction:column;
-  align-items:flex-start;
-  gap:8px;
-}
-
-.tone svg {
-  width:100%;
-  height:65px;
-  background:#0c1019;
-  border-radius:8px;
-}
-
-.tone path {
-  fill:none;
-  stroke:#70a8ff;
-  stroke-width:3;
-  stroke-linecap:round;
-  stroke-linejoin:round;
-}
-
-.tone .axis {
-  stroke:#343b4b;
-  stroke-width:1;
-}
+#file{display:none}
 </style>
 </head>
 <body>
 <main>
-
-<header>
- <h1>LANDAI VOICE</h1>
- <div class="status">● PROTOTYPE 0.2</div>
-</header>
+<header><h1>LANDAI VOICE</h1><div class="status">● PROTOTYPE 0.3</div></header>
 
 <section class="intro">
- <div style="color:#80adff;letter-spacing:3px;font-size:11px">
- LANDАI TEXT TO SPEECH
- </div>
+ <div style="color:#80adff;letter-spacing:3px;font-size:11px">LANDAI TEXT TO SPEECH</div>
  <h2>Голос Ландая.</h2>
- <p>Собственная система произношения и будущего человеческого голоса ландайского языка.</p>
+ <p class="muted">Текст превращается в слоги с тонами и озвучивается голосом браузера.</p>
 </section>
 
 <section class="panel">
  <h3>Текст на ландайском</h3>
- <textarea id="source" placeholder="Введите текст на ландайском...">Vũ̆ẻn lỹen Landai.</textarea>
- <button onclick="analyse()">Разобрать произношение</button>
+ <textarea id="source" placeholder="Введите текст на ландайском...">Vũ̆ẻn lỹen Landai.</textarea>
+ <button onclick="analyse()">Разобрать</button>
+ <button onclick="speak()">▶ Озвучить</button>
+ <button class="secondary" onclick="stopSpeak()">■ Стоп</button>
  <button class="secondary" onclick="clearText()">Очистить</button>
- <h3 style="margin-top:25px">Фонетическая разметка</h3>
+ <div class="row">
+  <label>Голос <select id="voice"></select></label>
+  <label>Скорость <input type="range" id="rate" min="0.5" max="1.5" step="0.1" value="0.9"></label>
+ </div>
+ <h3 style="margin-top:22px">Фонетическая разметка</h3>
  <div class="result" id="result">Ожидание текста...</div>
  <div class="note">
- Это фонетический прототип, а не готовая озвучка.
- Для настоящего человеческого голоса понадобится обучение модели
- на записях речи на ландайском языке.
+  Озвучка приблизительная: используется русская транскрипция и встроенный голос браузера.
+  Тоны передаются высотой и скоростью каждого слога. Для настоящего голоса нужна модель, обученная на записях.
  </div>
 </section>
 
 <section class="panel">
- <h3>Алфавит ландайского языка</h3>
- <div class="grid" id="alphabet"></div>
+ <h3>Исключения произношения</h3>
+ <p class="muted" style="font-size:13px">Загрузите JSON, экспортированный со страницы Exceptions. Исключения применяются к совпадающим словам.</p>
+ <button class="secondary" style="margin-top:0" onclick="document.getElementById('file').click()">Импорт JSON</button>
+ <button class="secondary" style="margin-top:0" onclick="clearExc()">Сбросить</button>
+ <input type="file" id="file" accept=".json">
+ <div class="muted" style="font-size:13px;margin-top:10px" id="excInfo"></div>
 </section>
 
-<section class="panel">
- <h3>Тоновая система</h3>
- <div class="grid" id="tones"></div>
-</section>
+<section class="panel"><h3>Алфавит</h3><div class="grid" id="alphabet"></div></section>
+<section class="panel"><h3>Тоновая система</h3><div class="grid" id="tones"></div></section>
 
-<footer>LANDAI VOICE · 2026 · LANDАI LANGUAGE</footer>
+<footer>LANDAI VOICE · 2026 · LANDAI LANGUAGE</footer>
 </main>
 
 <script>
-const alphabet=[
-["A","а"],["Ɐ","ӕ / ә"],["Ƀ","б"],["V","в"],
-["C","гортанная к"],["D","дз"],["Đ","взрывная д"],
-["E","э"],["Ҽ","округлённое э"],["F","ф"],
-["G","г"],["Ğ","гортанная г"],["H","х"],
-["Ḩ","хь"],["I","и"],["K","к"],["L","л"],
-["M","м"],["N","н"],["O","о"],["Ơ","округлённое о"],
-["P","п"],["Q","кью"],["R","р"],["S","ш"],
-["T","т"],["Ƹ","ц"],["U","у"],["Ư","округлённое ы"],
-["X","с"],["Y","ы"],["Z","з"],["Ԏ","особая гласная"]
-];
+// letter -> [Russian approximation, description]
+const A={
+"A":["а","а"],"Ɐ":["э","ӕ / ә"],"Ƀ":["б","б"],"V":["в","в"],"C":["к","гортанная к"],
+"D":["дз","дз"],"Đ":["д","взрывная д"],"E":["э","э"],"Ҽ":["э","округлённое э"],"F":["ф","ф"],
+"G":["г","г"],"Ğ":["г","гортанная г"],"H":["х","х"],"Ḩ":["хь","хь"],"I":["и","и"],
+"K":["к","к"],"L":["л","л"],"M":["м","м"],"N":["н","н"],"O":["о","о"],"Ơ":["о","округлённое о"],
+"P":["п","п"],"Q":["кью","кью"],"R":["р","р"],"S":["ш","ш"],"T":["т","т"],"Ƹ":["ц","ц"],
+"U":["у","у"],"Ư":["ы","округлённое ы"],"X":["с","с"],"Y":["ы","ы"],"Z":["з","з"],"Ԏ":["э","особая гласная"]
+};
+const VOW=new Set(["A","Ɐ","E","Ҽ","I","O","Ơ","U","Ư","Y","Ԏ"]);
+// combining mark -> tone key
+const TM={"\u0301":"high","\u0300":"low","\u030C":"hlh","\u0302":"lhl","\u0323":"short","\u0303":"lhlh","\u0309":"q","\u031A":"jump"};
+const TONE={ // arrow, pitch, rate
+flat:["→",1,1],high:["↑",1.5,1],low:["↓",.6,1],hlh:["↘↗",1.25,.9],lhl:["↗↘",.85,.9],
+short:["·",1,1.7],lhlh:["↘↗↘↗",1,.8],q:["↗?",1.7,1],jump:["↗!",1.6,1.1]};
 
-const tones=[
-["A","Ровный","→"],
-["Á","Высокий","↑"],
-["À","Низкий","↓"],
-["Ǎ","Высокий – низкий – высокий","↘ ↗"],
-["Â","Низкий – высокий – низкий","↗ ↘"],
-["Ạ","Короткий","·"],
-["Ã","Низкий – высокий – низкий – высокий","↘ ↗ ↘ ↗"],
-["Ả","Вопросительная интонация","↗ ?"],
-["A̚","Низкий, затем резкий подъём","↗!"]
-];
+const tones=[["A","Ровный","→"],["Á","Высокий"],["À","Низкий"],["Ǎ","Высокий – низкий – высокий"],["Â","Низкий – высокий – низкий"],["Ạ","Короткий"],["Ã","Низкий – высокий – низкий – высокий"],["Ả","Вопросительная интонация"],["A̚","Низкий, затем резкий подъём"]];
+const curves=["M5 30 L95 30","M5 48 L95 8","M5 8 L95 48","M5 8 L50 52 L95 8","M5 52 L50 8 L95 52","M5 30 L35 30","M5 52 L30 8 L55 52 L95 8","M5 48 Q50 48 95 8","M5 52 L65 52 L95 5"];
 
-alphabet.forEach(([letter,sound])=>{
- const el=document.createElement("div");
- el.className="item";
- el.innerHTML='<div class="letter"></div><div class="sound"></div>';
- el.querySelector(".letter").textContent=letter;
- el.querySelector(".sound").textContent=sound;
- document.getElementById("alphabet").appendChild(el);
+for(const k in A){const e=document.createElement("div");e.className="item";
+ e.innerHTML='<div class="letter"></div><div class="sound"></div>';
+ e.firstChild.textContent=k;e.lastChild.textContent=A[k][1];
+ document.getElementById("alphabet").appendChild(e);}
+const NS="http://www.w3.org/2000/svg";
+tones.forEach(([m,n],i)=>{const e=document.createElement("div");e.className="tone";
+ const b=document.createElement("b");b.textContent=m;
+ const s=document.createElementNS(NS,"svg");s.setAttribute("viewBox","0 0 100 60");
+ const ax=document.createElementNS(NS,"path");ax.setAttribute("d","M5 30 H95");ax.setAttribute("class","axis");
+ const p=document.createElementNS(NS,"path");p.setAttribute("d",curves[i]);
+ s.append(ax,p);const sp=document.createElement("span");sp.textContent=n;
+ e.append(b,s,sp);document.getElementById("tones").appendChild(e);});
+
+// ---------- exceptions ----------
+const KEY="landai_voice_exceptions";
+let exc=[];
+try{exc=JSON.parse(localStorage.getItem(KEY)||"[]")}catch(e){exc=[]}
+function saveExc(){try{localStorage.setItem(KEY,JSON.stringify(exc))}catch(e){}}
+function excInfo(){document.getElementById("excInfo").textContent=exc.length?"Загружено исключений: "+exc.length:"Исключений пока нет."}
+function clearExc(){exc=[];saveExc();excInfo();analyse()}
+document.getElementById("file").addEventListener("change",async e=>{
+ const f=e.target.files[0];if(!f)return;
+ try{const d=JSON.parse(await f.text());
+  if(!Array.isArray(d)||!d.every(x=>x&&typeof x.word==="string"&&typeof x.letter==="string"&&typeof x.special==="string"))throw 0;
+  exc=d;saveExc();excInfo();analyse();
+ }catch(err){alert("Не удалось импортировать JSON.")}
+ e.target.value="";
 });
 
-
-const toneCurves = [
-  "M5 30 L95 30",
-  "M5 48 L95 8",
-  "M5 8 L95 48",
-  "M5 8 L50 52 L95 8",
-  "M5 52 L50 8 L95 52",
-  "M5 30 L35 30",
-  "M5 52 L30 8 L55 52 L95 8",
-  "M5 48 Q50 48 95 8",
-  "M5 52 L65 52 L95 5"
-];
-
-tones.forEach(([mark,name,contour],i)=>{
-  const el=document.createElement("div");
-  el.className="tone";
-
-  const b=document.createElement("b");
-  b.textContent=mark;
-
-  const svg=document.createElementNS(
-    "http://www.w3.org/2000/svg","svg"
-  );
-  svg.setAttribute("viewBox","0 0 100 60");
-
-  const axis=document.createElementNS(
-    "http://www.w3.org/2000/svg","path"
-  );
-  axis.setAttribute("d","M5 30 H95");
-  axis.setAttribute("class","axis");
-
-  const path=document.createElementNS(
-    "http://www.w3.org/2000/svg","path"
-  );
-  path.setAttribute("d",toneCurves[i]);
-
-  svg.append(axis,path);
-
-  const s=document.createElement("span");
-  s.textContent=name;
-
-  el.append(b,svg,s);
-  document.getElementById("tones").appendChild(el);
-});
-
+// ---------- phonetics ----------
+function tokenize(word){
+ const toks=[];
+ for(const c of word.normalize("NFD")){
+  if(TM[c]){if(toks.length)toks[toks.length-1].tone=TM[c];continue}
+  if(c==="\u031B"||c==="\u0327"){if(toks.length)toks[toks.length-1].ch=(toks[toks.length-1].ch+c).normalize("NFC");continue}
+  if(/[\u0300-\u036F]/.test(c))continue;
+  toks.push({ch:c,tone:null});
+ }
+ return toks;
+}
+function toChunks(word){
+ const toks=tokenize(word);
+ toks.forEach(t=>{const u=t.ch.toUpperCase();t.r=A[u]?A[u][0]:t.ch.toLowerCase();t.v=VOW.has(u)});
+ const w=word.toLowerCase();
+ exc.filter(x=>x.word.toLowerCase()===w).forEach(x=>{
+  const L=[...x.letter.toUpperCase()].length;
+  for(let i=0;i+L<=toks.length;i++){
+   if(toks.slice(i,i+L).map(t=>t.ch).join("").toUpperCase()===x.letter.toUpperCase()){
+    toks[i].r=x.special.toLowerCase();
+    for(let j=1;j<L;j++)toks[i+j].r="";
+   }
+  }
+ });
+ const out=[];let cur="";
+ toks.forEach(t=>{cur+=t.r;
+  if(t.v){out.push({text:cur,tone:t.tone||"flat"});cur=""}});
+ if(cur){if(out.length)out[out.length-1].text+=cur;else out.push({text:cur,tone:"flat"})}
+ const merged=[];
+ out.forEach(c=>{const l=merged[merged.length-1];
+  if(l&&l.tone===c.tone&&c.tone==="flat")l.text+=c.text;else merged.push(c)});
+ return merged;
+}
+function parse(text){
+ return text.split(/(\s+)/).map(p=>{
+  if(!p)return null;
+  if(/^\s+$/.test(p))return{sep:true};
+  const m=p.match(/^([\s\S]*?)([.,!?;:…]*)$/);
+  return{chunks:toChunks(m[1]),punct:m[2]};
+ }).filter(Boolean);
+}
+let parsed=[];
 function analyse(){
- const text=document.getElementById("source").value;
- const count=[...text].length;
- document.getElementById("result").textContent=
- "Текст: "+text+" | Символов: "+count+
- ". Тоновые знаки сохранены. Точная фонетическая транскрипция будет добавлена после настройки правил.";
+ parsed=parse(document.getElementById("source").value);
+ const box=document.getElementById("result");box.textContent="";
+ if(!parsed.length){box.textContent="Ожидание текста...";return}
+ parsed.forEach((w,wi)=>{
+  if(w.sep){const s=document.createElement("span");s.className="sep";box.appendChild(s);return}
+  w.chunks.forEach((c,ci)=>{
+   const s=document.createElement("span");s.className="chunk";s.id="c"+wi+"_"+ci;
+   s.textContent=c.text;
+   if(c.tone!=="flat"){const i=document.createElement("i");i.textContent=TONE[c.tone][0];s.appendChild(i)}
+   box.appendChild(s);
+  });
+  if(w.punct)box.appendChild(document.createTextNode(w.punct));
+ });
 }
-function clearText(){
- document.getElementById("source").value="";
- document.getElementById("result").textContent="Ожидание текста...";
+function clearText(){stopSpeak();document.getElementById("source").value="";parsed=[];document.getElementById("result").textContent="Ожидание текста..."}
+
+// ---------- speech ----------
+const vs=document.getElementById("voice");
+let voices=[];
+function loadVoices(){
+ if(!window.speechSynthesis)return;
+ voices=speechSynthesis.getVoices();
+ const ru=voices.filter(v=>v.lang.toLowerCase().startsWith("ru"));
+ const list=ru.length?ru:voices;
+ const old=vs.value;vs.textContent="";
+ list.forEach(v=>{const o=document.createElement("option");o.value=v.name;o.textContent=v.name+" ("+v.lang+")";vs.appendChild(o)});
+ if(old)vs.value=old;
 }
-analyse();
+if(window.speechSynthesis){loadVoices();speechSynthesis.onvoiceschanged=loadVoices}
+function stopSpeak(){if(window.speechSynthesis)speechSynthesis.cancel();document.querySelectorAll(".chunk.on").forEach(e=>e.classList.remove("on"))}
+function speak(){
+ if(!window.speechSynthesis){alert("Этот браузер не поддерживает синтез речи.");return}
+ analyse();stopSpeak();
+ const base=parseFloat(document.getElementById("rate").value);
+ const v=voices.find(x=>x.name===vs.value);
+ parsed.forEach((w,wi)=>{
+  if(w.sep)return;
+  w.chunks.forEach((c,ci)=>{
+   if(!c.text.trim())return;
+   const [,pitch,rate]=TONE[c.tone];
+   const u=new SpeechSynthesisUtterance(c.text);
+   u.lang="ru-RU";if(v)u.voice=v;
+   u.pitch=Math.min(2,Math.max(0,pitch));
+   u.rate=Math.min(2,Math.max(.3,base*rate));
+   const el=document.getElementById("c"+wi+"_"+ci);
+   u.onstart=()=>el&&el.classList.add("on");
+   u.onend=()=>el&&el.classList.remove("on");
+   speechSynthesis.speak(u);
+  });
+ });
+}
+excInfo();analyse();
 </script>
 </body>
 </html>
