@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#101116">
+<title>LANDAI VOICE</title>
+<style>
+:root{color-scheme:dark;--bg:#0c0d12;--panel:#151720;--panel2:#1c1f2a;--line:#2a2e3b;--text:#f3f4f8;--muted:#9ba2b3;--blue:#5593ff;--blue2:#2867d8;--green:#45c58a}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 50% -20%,#1b2c4c 0%,transparent 48%),var(--bg);color:var(--text);font:15px/1.5 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+.wrap{width:min(1050px,100% - 32px);margin:auto;padding:28px 0 60px}
+header{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:30px}
+.brand{display:flex;align-items:center;gap:12px}.logo{width:42px;height:42px;border-radius:13px;background:linear-gradient(145deg,#6da5ff,#2456b7);display:grid;place-items:center;font-weight:850;font-size:19px;box-shadow:0 8px 30px #2867d844}
+h1{font-size:19px;letter-spacing:.13em;margin:0}.sub{color:var(--muted);font-size:11px;letter-spacing:.16em}
+.status{border:1px solid #315b49;background:#14271f;color:#8be0b6;padding:6px 10px;border-radius:30px;font-size:12px}
+.hero{margin:22px 0 25px}.eyebrow{color:#8db6ff;font-size:11px;letter-spacing:.2em;font-weight:700}.hero h2{font-size:clamp(27px,6vw,42px);line-height:1.1;margin:9px 0}.hero p{color:var(--muted);max-width:650px;margin:0}
+.panel{background:linear-gradient(160deg,#191c27,#12141b);border:1px solid var(--line);border-radius:20px;padding:20px;margin:16px 0;box-shadow:0 14px 40px #0002}
+.panel-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px}.panel h3{margin:0;font-size:16px}.hint{font-size:12px;color:var(--muted)}
+textarea{width:100%;min-height:125px;resize:vertical;border:1px solid #343a4b;background:#0e1017;color:var(--text);border-radius:13px;padding:15px;font:18px/1.65 inherit;outline:none}
+textarea:focus{border-color:var(--blue);box-shadow:0 0 0 3px #5593ff20}
+.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}.btn{border:0;border-radius:11px;padding:11px 16px;font-weight:700;cursor:pointer;background:var(--blue2);color:white}.btn.secondary{background:#252a38;border:1px solid #383e50}.btn:active{transform:translateY(1px)}
+.output{min-height:54px;background:#0e1017;border:1px solid #303648;border-radius:12px;padding:14px;overflow-wrap:anywhere;font-size:16px}.output small{display:block;color:var(--muted);font-size:12px;margin-top:8px}
+.notice{border-left:3px solid #e2b45a;padding:10px 13px;background:#292316;color:#e9d7ac;border-radius:0 10px 10px 0;font-size:13px;margin-top:13px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:9px}.letter{background:#10131b;border:1px solid #292e3c;border-radius:12px;padding:11px}.glyph{font-size:25px;font-weight:750;color:#a9c8ff}.sound{font-size:13px;margin-top:2px}.letter small{color:var(--muted);font-size:11px}
+.tones{display:grid;grid-template-columns:repeat(auto-fit,minmax(95px,1fr));gap:9px}.tone{background:#10131b;border:1px solid #292e3c;border-radius:12px;text-align:center;padding:12px 7px}.tone b{font-size:25px;color:#a9c8ff}.tone span{display:block;color:var(--muted);font-size:11px;margin-top:3px}
+footer{color:#737b8e;font-size:12px;text-align:center;margin-top:28px}
+@media(max-width:560px){.wrap{width:min(100% - 22px,1050px);padding-top:18px}.panel{padding:15px;border-radius:16px}.status{font-size:10px}.hero h2{font-size:31px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="brand"><div class="logo">L</div><div><h1>LANDAI VOICE</h1><div class="sub">LANDАI TEXT & PHONETICS</div></div></div>
+  <div class="status">● Prototype 0.1</div>
+</header>
+
+<section class="hero">
+  <div class="eyebrow">ПЕРВЫЙ ФОНЕТИЧЕСКИЙ ПРОТОТИП</div>
+  <h2>Голос Ландая начинается здесь.</h2>
+  <p>Рабочая основа будущей системы озвучивания: ввод текста, справочник букв и отдельная таблица тонов. Произношение строится по правилам ландайского языка, а не по правилам русского или английского.</p>
+</section>
+
+<section class="panel">
+  <div class="panel-head"><h3>Текст на ландайском</h3><span class="hint">TEXT INPUT</span></div>
+  <textarea id="source" placeholder="Введите текст на ландайском…">Vũ̆ẻn lỹen Landai.</textarea>
+  <div class="actions">
+    <button class="btn" id="convert">Разобрать произношение</button>
+    <button class="btn secondary" id="clear">Очистить</button>
+  </div>
+  <div style="height:17px"></div>
+  <div class="panel-head"><h3>Фонетическая разметка</h3><span class="hint">PHONETIC PREVIEW</span></div>
+  <div class="output" id="result">Здесь появится разбор текста.</div>
+  <div class="notice">Это пока не аудио. Для человеческого голоса понадобится записать образцы произношения и обучить/подключить голосовую модель. Мы не будем подменять ландайскую речь случайным системным голосом.</div>
+</section>
+
+<section class="panel">
+  <div class="panel-head"><h3>Алфавит ландайского языка</h3><span class="hint">33 БУКВЫ</span></div>
+  <div class="grid" id="alphabet"></div>
+</section>
+
+<section class="panel">
+  <div class="panel-head"><h3>Система тонов</h3><span class="hint">9 ТОНАЛЬНЫХ ФОРМ</span></div>
+  <div class="tones" id="tones"></div>
+  <p class="hint" style="margin:13px 0 0">Отображены принятые тоновые знаки. Точные контуры высоты, длительность и особенности каждого тона будут внесены по фонетическому описанию автора языка.</p>
+</section>
+<footer>LANDAI VOICE · GitHub Pages · HTML / CSS / JavaScript</footer>
+</div>
+<script>
+const alphabet = [
+ ['A','а'],['Ɐ','ӕ / ә'],['Ƀ','б'],['V','в'],['C','гортанная к'],['D','дз'],
+ ['Đ','взрывная нёбная д'],['E','э'],['Ҽ','э, губы округлены'],['F','ф'],
+ ['G','г'],['Ğ','гортанная г'],['H','х'],['Ḩ','хь / й-подобный оттенок'],
+ ['I','и'],['K','кх / х'],['L','л'],['M','м'],['N','н'],['O','о'],
+ ['Ơ','о, губы округлены'],['P','п'],['Q','название буквы: кью'],
+ ['R','р'],['S','ш'],['T','т'],['Ƹ','ц'],['U','у'],['Ư','ы, губы округлены'],
+ ['X','с'],['Y','ы'],['Z','з'],['Ԏ','между ы / э / о']
+];
+const toneMarks = ['A','Á','À','Ǎ','Â','Ạ','Ã','Ả','A̚'];
+const alphabetEl = document.getElementById('alphabet');
+alphabet.forEach(([letter,sound])=>{
+ const el=document.createElement('div');el.className='letter';
+ const g=document.createElement('div');g.className='glyph';g.textContent=letter;
+ const s=document.createElement('div');s.className='sound';s.textContent=sound;
+ el.append(g,s);alphabetEl.append(el);
+});
+const tonesEl=document.getElementById('tones');
+toneMarks.forEach((mark,i)=>{
+ const el=document.createElement('div');el.className='tone';
+ const b=document.createElement('b');b.textContent=mark;
+ const s=document.createElement('span');s.textContent='Тон '+(i+1);
+ el.append(b,s);tonesEl.append(el);
+});
+
+// This preview deliberately preserves the original spelling. It marks known
+// letters and tone-bearing forms without guessing unconfirmed tone contours.
+function analyse(text){
+ const chars=[...text.normalize('NFC')];
+ const known=new Set(alphabet.map(x=>x[0].toLocaleLowerCase()));
+ let letters=0, unknown=[];
+ for(const ch of chars){
+   if(/[A-Za-zА-Яа-яЁё]/u.test(ch) || /[ⱯɃƀĐđҼĞğḨḩƠơƸƹƯưԎԏ]/u.test(ch)){
+     if(known.has(ch.toLocaleLowerCase())) letters++;
+     else if(!/\s/.test(ch)) unknown.push(ch);
+   }
+ }
+ const unique=[...new Set(unknown)];
+ return `<strong>Исходный текст:</strong> ${escapeHtml(text||'—')}<small>Распознано символов ландайского алфавита: ${letters}. ${unique.length?'Символы, требующие проверки: '+escapeHtml(unique.join(' ')): 'Нераспознанных букв не обнаружено.'}<br>Тоновые знаки сохраняются; их точная акустическая реализация будет добавлена после уточнения тоновых контуров.</small>`;
+}
+function escapeHtml(s){return s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+document.getElementById('convert').addEventListener('click',()=>{
+ document.getElementById('result').innerHTML=analyse(document.getElementById('source').value);
+});
+document.getElementById('clear').addEventListener('click',()=>{
+ document.getElementById('source').value='';
+ document.getElementById('result').textContent='Здесь появится разбор текста.';
+});
+document.getElementById('convert').click();
+</script>
+</body>
+</html>
