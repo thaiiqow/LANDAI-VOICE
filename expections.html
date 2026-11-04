@@ -1,0 +1,597 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LANDAI VOICE — Exceptions</title>
+
+<style>
+:root {
+  --bg: #090b11;
+  --panel: #111620;
+  --panel2: #171e2b;
+  --border: #273142;
+  --text: #f2f5fa;
+  --muted: #8995a8;
+  --accent: #548cff;
+  --red: #ff5b68;
+  --green: #43c995;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 25px 16px;
+  background: var(--bg);
+  color: var(--text);
+  font-family: Arial, sans-serif;
+}
+
+.container {
+  max-width: 1050px;
+  margin: auto;
+}
+
+header {
+  margin-bottom: 28px;
+}
+
+.logo {
+  font-size: 13px;
+  color: var(--accent);
+  font-weight: bold;
+  letter-spacing: 3px;
+}
+
+h1 {
+  font-size: 30px;
+  margin: 12px 0 8px;
+}
+
+.subtitle {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 15px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.panel h2 {
+  font-size: 17px;
+  margin: 0 0 18px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.field.full {
+  grid-column: 1 / -1;
+}
+
+label {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+input, textarea {
+  width: 100%;
+  background: var(--panel2);
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: 9px;
+  padding: 12px;
+  font-size: 14px;
+  outline: none;
+  font-family: inherit;
+}
+
+input:focus, textarea:focus {
+  border-color: var(--accent);
+}
+
+textarea {
+  resize: vertical;
+  min-height: 65px;
+}
+
+button {
+  border: none;
+  border-radius: 9px;
+  padding: 11px 15px;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.primary {
+  background: var(--accent);
+  color: white;
+}
+
+.secondary {
+  background: var(--panel2);
+  border: 1px solid var(--border);
+  color: var(--text);
+}
+
+.danger {
+  background: rgba(255,91,104,.12);
+  color: var(--red);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin-top: 16px;
+}
+
+.stats {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+}
+
+.stat {
+  flex: 1;
+  min-width: 130px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 15px;
+}
+
+.stat strong {
+  display: block;
+  font-size: 24px;
+  margin-bottom: 5px;
+}
+
+.stat span {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.table-wrap {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 750px;
+  font-size: 13px;
+}
+
+th {
+  text-align: left;
+  color: var(--muted);
+  font-weight: normal;
+  padding: 13px 10px;
+  border-bottom: 1px solid var(--border);
+}
+
+td {
+  padding: 13px 10px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+}
+
+td:first-child {
+  font-weight: bold;
+}
+
+.sound {
+  color: var(--green);
+  font-weight: bold;
+}
+
+.normal {
+  color: var(--muted);
+}
+
+.row-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.row-actions button {
+  padding: 7px 9px;
+}
+
+.empty {
+  text-align: center;
+  padding: 35px 15px;
+  color: var(--muted);
+}
+
+.note {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.6;
+  margin-top: 15px;
+}
+
+#fileInput {
+  display: none;
+}
+
+@media(max-width:600px) {
+  body {
+    padding: 18px 11px;
+  }
+
+  h1 {
+    font-size: 25px;
+  }
+
+  .panel {
+    padding: 15px;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .field.full {
+    grid-column: auto;
+  }
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+
+<header>
+  <div class="logo">LANDAI VOICE</div>
+  <h1>Exceptions</h1>
+  <div class="subtitle">
+    Словарь специальных исключений произношения
+    ландайского языка.
+  </div>
+</header>
+
+<div class="stats">
+  <div class="stat">
+    <strong id="total">0</strong>
+    <span>Всего исключений</span>
+  </div>
+  <div class="stat">
+    <strong id="words">0</strong>
+    <span>Уникальных слов</span>
+  </div>
+</div>
+
+<section class="panel">
+  <h2 id="formTitle">Добавить исключение</h2>
+
+  <form id="exceptionForm">
+    <div class="form-grid">
+
+      <div class="field">
+        <label for="word">Слово на ландайском *</label>
+        <input id="word" required
+          placeholder="Например: Lanđai">
+      </div>
+
+      <div class="field">
+        <label for="letter">Буква или сочетание *</label>
+        <input id="letter" required
+          placeholder="Например: L, C, Tg">
+      </div>
+
+      <div class="field">
+        <label for="normal">Обычное звучание</label>
+        <input id="normal"
+          placeholder="Например: Л">
+      </div>
+
+      <div class="field">
+        <label for="special">Особое звучание *</label>
+        <input id="special" required
+          placeholder="Например: Й">
+      </div>
+
+      <div class="field full">
+        <label for="comment">Комментарий</label>
+        <textarea id="comment"
+          placeholder="Дополнительные правила или пояснения..."></textarea>
+      </div>
+
+    </div>
+
+    <div class="actions">
+      <button class="primary" type="submit" id="saveButton">
+        Добавить исключение
+      </button>
+
+      <button class="secondary" type="button"
+        onclick="resetForm()">
+        Очистить
+      </button>
+    </div>
+  </form>
+</section>
+
+<section class="panel">
+  <h2>Таблица исключений</h2>
+
+  <div class="actions" style="margin-top:0;margin-bottom:16px">
+    <button class="secondary" onclick="exportJSON()">
+      Экспорт JSON
+    </button>
+
+    <button class="secondary"
+      onclick="document.getElementById('fileInput').click()">
+      Импорт JSON
+    </button>
+
+    <input type="file" id="fileInput" accept=".json">
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Слово</th>
+          <th>Буква</th>
+          <th>Обычное</th>
+          <th>Исключение</th>
+          <th>Комментарий</th>
+          <th>Действия</th>
+        </tr>
+      </thead>
+
+      <tbody id="tableBody"></tbody>
+    </table>
+
+    <div id="empty" class="empty">
+      Пока исключений нет.<br>
+      Добавь первое исключение выше.
+    </div>
+  </div>
+
+  <div class="note">
+    Данные автоматически сохраняются в локальном хранилище
+    браузера на этом устройстве. Для переноса записей
+    на другое устройство используй экспорт JSON.
+  </div>
+</section>
+
+</div>
+
+<script>
+const STORAGE_KEY = "landai_voice_exceptions";
+
+let exceptions = JSON.parse(
+  localStorage.getItem(STORAGE_KEY) || "[]"
+);
+
+let editingId = null;
+
+const form = document.getElementById("exceptionForm");
+
+function saveData() {
+  localStorage.setItem(
+    STORAGE_KEY,
+    JSON.stringify(exceptions)
+  );
+}
+
+function render() {
+  const tbody = document.getElementById("tableBody");
+  const empty = document.getElementById("empty");
+
+  tbody.innerHTML = "";
+
+  exceptions.forEach(item => {
+    const tr = document.createElement("tr");
+
+    const values = [
+      item.word,
+      item.letter,
+      item.normal || "—",
+      item.special,
+      item.comment || "—"
+    ];
+
+    values.forEach((value, index) => {
+      const td = document.createElement("td");
+      td.textContent = value;
+
+      if (index === 2) td.className = "normal";
+      if (index === 3) td.className = "sound";
+
+      tr.appendChild(td);
+    });
+
+    const actions = document.createElement("td");
+    actions.className = "row-actions";
+
+    const edit = document.createElement("button");
+    edit.className = "secondary";
+    edit.textContent = "Изменить";
+    edit.onclick = () => editItem(item.id);
+
+    const remove = document.createElement("button");
+    remove.className = "danger";
+    remove.textContent = "Удалить";
+    remove.onclick = () => deleteItem(item.id);
+
+    actions.append(edit, remove);
+    tr.appendChild(actions);
+
+    tbody.appendChild(tr);
+  });
+
+  empty.style.display =
+    exceptions.length ? "none" : "block";
+
+  document.getElementById("total").textContent =
+    exceptions.length;
+
+  document.getElementById("words").textContent =
+    new Set(exceptions.map(x => x.word.toLowerCase())).size;
+}
+
+form.addEventListener("submit", function(e) {
+  e.preventDefault();
+
+  const item = {
+    id: editingId || (
+      Date.now().toString() +
+      Math.random().toString(16).slice(2)
+    ),
+    word: document.getElementById("word").value.trim(),
+    letter: document.getElementById("letter").value.trim(),
+    normal: document.getElementById("normal").value.trim(),
+    special: document.getElementById("special").value.trim(),
+    comment: document.getElementById("comment").value.trim()
+  };
+
+  if (editingId) {
+    const index = exceptions.findIndex(
+      x => x.id === editingId
+    );
+
+    if (index !== -1) exceptions[index] = item;
+  } else {
+    exceptions.push(item);
+  }
+
+  saveData();
+  render();
+  resetForm();
+});
+
+function editItem(id) {
+  const item = exceptions.find(x => x.id === id);
+  if (!item) return;
+
+  editingId = id;
+
+  document.getElementById("word").value = item.word;
+  document.getElementById("letter").value = item.letter;
+  document.getElementById("normal").value = item.normal;
+  document.getElementById("special").value = item.special;
+  document.getElementById("comment").value = item.comment;
+
+  document.getElementById("formTitle").textContent =
+    "Редактировать исключение";
+
+  document.getElementById("saveButton").textContent =
+    "Сохранить изменения";
+
+  window.scrollTo({top: 0, behavior: "smooth"});
+}
+
+function deleteItem(id) {
+  if (!confirm("Удалить это исключение?")) return;
+
+  exceptions = exceptions.filter(x => x.id !== id);
+
+  saveData();
+  render();
+
+  if (editingId === id) resetForm();
+}
+
+function resetForm() {
+  form.reset();
+  editingId = null;
+
+  document.getElementById("formTitle").textContent =
+    "Добавить исключение";
+
+  document.getElementById("saveButton").textContent =
+    "Добавить исключение";
+}
+
+function exportJSON() {
+  const blob = new Blob(
+    [JSON.stringify(exceptions, null, 2)],
+    {type: "application/json"}
+  );
+
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+
+  a.href = url;
+  a.download = "landai-voice-exceptions.json";
+  a.click();
+
+  URL.revokeObjectURL(url);
+}
+
+document.getElementById("fileInput")
+.addEventListener("change", async function(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  try {
+    const imported = JSON.parse(await file.text());
+
+    if (!Array.isArray(imported)) {
+      throw new Error("Неверный формат");
+    }
+
+    const valid = imported.every(item =>
+      item &&
+      typeof item.word === "string" &&
+      typeof item.letter === "string" &&
+      typeof item.special === "string"
+    );
+
+    if (!valid) {
+      throw new Error("Некорректные записи");
+    }
+
+    const replace = confirm(
+      "ОК — заменить текущую таблицу импортированными записями.\n" +
+      "Отмена — добавить записи к существующим."
+    );
+
+    if (replace) {
+      exceptions = imported;
+    } else {
+      exceptions.push(...imported);
+    }
+
+    saveData();
+    render();
+    resetForm();
+
+    alert("Импорт завершён!");
+  } catch(error) {
+    alert("Не удалось импортировать файл. Проверь JSON.");
+  }
+
+  e.target.value = "";
+});
+
+render();
+</script>
+
+</body>
+</html>
